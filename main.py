@@ -554,6 +554,7 @@ def main():
     print(f"  Event: {event_code}  Region: {region_code}  "
           f"Dates: {date_list}")
 
+    
     # Fetch data for each date
     all_shows = []
     all_dates = []
@@ -564,9 +565,9 @@ def main():
         data = fetch_bms(event_code, dc, region_code,
                          region_slug_r, lat, lon, geohash)
         if not data:
-    fetch_failures += 1
-    print(f"  ⚠️  No data for date {dc or '(default)'}")
-    continue
+            fetch_failures += 1
+            print(f"  ⚠️  No data for date {dc or '(default)'}")
+            continue
 
         if movie_info["name"] == "Unknown":
             movie_info = parse_movie_info(data)
@@ -575,14 +576,15 @@ def main():
         all_shows.extend(parse_shows(data))
 
     if fetch_failures:
-    print(f"  ❌ Failed to retrieve data for {fetch_failures} date(s).")
-    sys.exit(1)
+        print(f"  ❌ Failed to retrieve data for {fetch_failures} date(s).")
+        sys.exit(1)
 
     if not all_shows:
-    print("  ℹ️ No showtimes found. Tickets may not be on sale yet.")
-    sys.exit(0)
+        print("  ℹ️ No showtimes found. Tickets may not be on sale yet.")
+        sys.exit(0)
 
     print(f"  🎬 {movie_info['name']}  {movie_info['language']}")
+
 
     # Apply filters
     filtered = filter_shows(
